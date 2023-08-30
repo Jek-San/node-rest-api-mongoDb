@@ -7,8 +7,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 
 const usersRoute = require("./routes/users.js")
-
 const authRoute = require("./routes/auth.js")
+const postRoute = require('./routes/posts')
 
 dotenv.config();
 
@@ -32,3 +32,4 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 app.use("/api/users", usersRoute)
 app.use("/api/auth", authRoute)
+app.use("/api/posts", postRoute)
