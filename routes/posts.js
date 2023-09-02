@@ -80,15 +80,39 @@ router.get("/:id", async (req, res) => {
   }
 })
 //get timeline posts
-router.get("/timeline/all", async (req, res) => {
-
+router.get("/timeline/:userId", async (req, res) => {
+  console.log("timeline on call")
   try {
-    const currentUser = await User.findById(req.body.userId);
+    const currentUser = await User.findById(req.params.userId);
     const followingIds = currentUser.followings; // Assuming `followings` is an array of friend IDs
 
     const postsFromFollowing = await Post.find({ userId: { $in: followingIds } });
+    console.log(postsFromFollowing)
 
-    res.json(postsFromFollowing);
+
+    res.status(200).json(postsFromFollowing);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while fetching posts." });
+  }
+});
+
+//get timeline profile
+router.get("/profile/:username", async (req, res) => {
+  console.log("timeline on call")
+  try {
+    const user = await User.findOne({ username: req.params.username })
+    const posts = await Post.find({ userId: user._id })
+    res.status(200).json(posts)
+
+
+    // const currentUser = await User.findById(req.params.userId);
+    // const followingIds = currentUser.followings; // Assuming `followings` is an array of friend IDs
+
+    // const postsFromFollowing = await Post.find({ userId: { $in: followingIds } });
+    // console.log(postsFromFollowing)
+
+
+    // res.status(200).json(postsFromFollowing);
   } catch (error) {
     res.status(500).json({ error: "An error occurred while fetching posts." });
   }
