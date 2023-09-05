@@ -44,13 +44,13 @@ mongoose
 
 const generateName = (something) => {
   const dateNow = Date.now();
-  const result = `post/${dateNow.toString()}${something} `//
+  const result = dateNow.toString() + something
   return result;
 }
 // Serve static images
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/images/post");
+    cb(null, "public/images");
   },
   filename: (req, file, cb) => {
 
@@ -59,7 +59,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// static url
 app.use("/images", express.static(path.join(__dirname, "public/images")));
+// static url
 
 // Routes
 app.use("/api/users", usersRoute);
@@ -79,7 +81,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     console.log("File uploaded successfully");
     return res.status(200).json({
       message: "File uploaded successfully",
-      data: req.file.filename, // Return the filename as "data" in the response
+      pathName: req.file.filename, // Return the filename as "data" in the response
 
     });
   } catch (error) {
