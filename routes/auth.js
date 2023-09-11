@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require("../models/User.js")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken"); // Import the jwt library
+
 //REGISTER
 
 
@@ -38,6 +40,7 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
+  console.log("login api on call")
   try {
     const user = await User.findOne({ email: req.body.email });
 
@@ -51,7 +54,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json("Wrong password");
     }
 
-    // If everything is fine, send the user object
+
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);
