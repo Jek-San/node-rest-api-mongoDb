@@ -12,6 +12,8 @@ const path = require("path");
 const usersRoute = require("./routes/users.js");
 const authRoute = require("./routes/auth.js");
 const postRoute = require('./routes/posts');
+const conversationRoute = require("./routes/conversations.js")
+const messagesRoute = require("./routes/messages.js")
 
 dotenv.config();
 const corsOpt = {
@@ -67,6 +69,8 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use("/api/users", usersRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/conversations", conversationRoute)
+app.use("/api/messages", messagesRoute)
 
 // Upload route
 app.post("/api/upload", upload.single("file"), (req, res) => {
